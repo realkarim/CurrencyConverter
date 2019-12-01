@@ -6,5 +6,5 @@ import retrofit2.http.Path
 
 interface CurrencyRateApi {
     @GET("latest/{base}")
-    fun getTaxisForCoordinates(@Path("base") base: String): Single<CurrencyRateApi?>
+    fun fetchRatesForCurrency(@Path("base") base: String): Single<CurrencyRateApi?>
 }
