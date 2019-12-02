@@ -19,8 +19,8 @@ class CurrencyConverterPresenter(
             getCurrencyRateInteractor(currency)
                 .map { it.toString() }
                 .subscribe(
-                    { view::updateView },
-                    { view::showErrorMessage }
+                    { view.updateView(it) },
+                    { view.showErrorMessage(it.localizedMessage) }
                 )
         )
     }
