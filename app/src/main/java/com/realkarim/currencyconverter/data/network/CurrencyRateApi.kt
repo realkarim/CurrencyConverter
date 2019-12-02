@@ -2,9 +2,9 @@ package com.realkarim.currencyconverter.data.network
 
 import io.reactivex.Single
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface CurrencyRateApi {
-    @GET("latest/{base}")
-    fun fetchRatesForCurrency(@Path("base") base: String): Single<CurrencyRateApi?>
+    @GET("/latest")
+    fun fetchRatesForCurrency(@Query("base") base: String): Single<CurrencyRateApi?>
 }

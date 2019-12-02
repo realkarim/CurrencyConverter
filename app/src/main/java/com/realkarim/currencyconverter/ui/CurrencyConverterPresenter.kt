@@ -1,5 +1,31 @@
 package com.realkarim.currencyconverter.ui
 
-class CurrencyConverterPresenter : CurrencyConverterContract.Presenter {
-    override fun loadRateForCurrency(currency: String) = "Mocked response message for $currency"
+import com.realkarim.currencyconverter.domain.interactor.GetCurrencyRateInteractor
+import io.reactivex.disposables.CompositeDisposable
+
+class CurrencyConverterPresenter(
+    private val getCurrencyRateInteractor: GetCurrencyRateInteractor
+) : CurrencyConverterContract.Presenter {
+
+    private lateinit var view: CurrencyConverterContract.View
+    private val compositeDisposable = CompositeDisposable()
+
+    override fun attachView(view: CurrencyConverterContract.View) {
+        this.view = view
+    }
+
+    override fun loadRateForCurrency(currency: String) {
+        compositeDisposable.add(
+            getCurrencyRateInteractor(currency)
+                .map { it.toString() }
+                .subscribe(
+                    { view::updateView },
+                    { view::showErrorMessage }
+                )
+        )
+    }
+
+    override fun onStop() {
+        compositeDisposable.clear()
+    }
 }
