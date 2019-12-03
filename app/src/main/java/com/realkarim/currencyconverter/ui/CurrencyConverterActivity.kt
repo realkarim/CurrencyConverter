@@ -6,6 +6,7 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AppCompatActivity
 import com.realkarim.currencyconverter.R
 import com.realkarim.currencyconverter.dagger.DaggerCurrencyConverterComponent
+import com.realkarim.currencyconverter.ui.model.CurrencyViewData
 import kotlinx.android.synthetic.main.activity_currencyt_converter.*
 import javax.inject.Inject
 
@@ -14,11 +15,15 @@ class CurrencyConverterActivity : AppCompatActivity(), CurrencyConverterContract
     @Inject
     lateinit var presenter: CurrencyConverterContract.Presenter
 
+    private val adapter = CurrencyConverterAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currencyt_converter)
 
         initDagger()
+
+        currencyList.adapter = adapter
 
         presenter.loadRateForCurrency("EUR")
     }
@@ -28,8 +33,8 @@ class CurrencyConverterActivity : AppCompatActivity(), CurrencyConverterContract
         presenter.attachView(this)
     }
 
-    override fun updateView(text: String) {
-        responseMessage.text = text
+    override fun updateView(currencyViewData: CurrencyViewData) {
+        adapter.updateData(currencyViewData)
     }
 
     override fun showErrorMessage(text: String) {

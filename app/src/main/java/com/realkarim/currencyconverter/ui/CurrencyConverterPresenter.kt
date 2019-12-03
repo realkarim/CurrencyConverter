@@ -17,7 +17,6 @@ class CurrencyConverterPresenter(
     override fun loadRateForCurrency(currency: String) {
         compositeDisposable.add(
             getCurrencyRateInteractor(currency)
-                .map { it.toString() }
                 .subscribe(
                     { view.updateView(it) },
                     { view.showErrorMessage(it.localizedMessage) }

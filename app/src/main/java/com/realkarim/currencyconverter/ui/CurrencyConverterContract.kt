@@ -1,8 +1,10 @@
 package com.realkarim.currencyconverter.ui
 
+import com.realkarim.currencyconverter.ui.model.CurrencyViewData
+
 interface CurrencyConverterContract {
     interface View {
-        fun updateView(text: String)
+        fun updateView(currencyViewData: CurrencyViewData)
         fun showErrorMessage(text: String)
     }
 
