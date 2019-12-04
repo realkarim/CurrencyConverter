@@ -5,7 +5,8 @@ import com.realkarim.currencyconverter.ui.model.CurrencyViewData
 
 interface CurrencyConverterContract {
     interface View {
-        fun updateView(currencyViewData: CurrencyViewData)
+        fun updateViewData(currencyViewData: CurrencyViewData)
+        fun moveItemToTop(position: Int)
         fun showErrorMessage(text: String)
     }
 
@@ -17,13 +18,11 @@ interface CurrencyConverterContract {
     interface Presenter {
         fun attachView(view: View)
         fun loadRateForCurrency(currency: String)
-        fun onStop()
-    }
-
-    interface AdapterPresenter {
         fun bindViewItem(
             currencyConverterAdapterViewHolder: CurrencyConverterAdapterViewHolder,
             currency: Currency
         )
+        fun onViewItemClick(position: Int)
+        fun onStop()
     }
 }

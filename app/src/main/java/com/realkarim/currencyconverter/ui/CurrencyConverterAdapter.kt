@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.realkarim.currencyconverter.R
 import com.realkarim.currencyconverter.ui.model.CurrencyViewData
 
-class CurrencyConverterAdapter(private val adapterPresenter: CurrencyConverterContract.AdapterPresenter) :
+class CurrencyConverterAdapter(private val presenter: CurrencyConverterContract.Presenter) :
     RecyclerView.Adapter<CurrencyConverterAdapterViewHolder>() {
 
     private var currencyViewData: CurrencyViewData = CurrencyViewData()
@@ -17,11 +17,21 @@ class CurrencyConverterAdapter(private val adapterPresenter: CurrencyConverterCo
         notifyDataSetChanged()
     }
 
+    fun moveItemToTop(position: Int) {
+        val item = currencyViewData.currencyList.get(position)
+        currencyViewData.currencyList.removeAt(position)
+        currencyViewData.currencyList.add(0, item)
+        notifyItemMoved(position, 0)
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): CurrencyConverterAdapterViewHolder {
-        return CurrencyConverterAdapterViewHolder(inflateView(parent, R.layout.currency_list_item))
+        return CurrencyConverterAdapterViewHolder(
+            inflateView(parent, R.layout.currency_list_item),
+            presenter
+        )
     }
 
     override fun getItemCount(): Int {
@@ -29,7 +39,7 @@ class CurrencyConverterAdapter(private val adapterPresenter: CurrencyConverterCo
     }
 
     override fun onBindViewHolder(holder: CurrencyConverterAdapterViewHolder, position: Int) =
-        adapterPresenter.bindViewItem(holder, currencyViewData.currencyList.get(position))
+        presenter.bindViewItem(holder, currencyViewData.currencyList.get(position))
 
     private fun inflateView(viewGroup: ViewGroup, @LayoutRes layout: Int) =
         LayoutInflater.from(viewGroup.context).inflate(layout, viewGroup, false)

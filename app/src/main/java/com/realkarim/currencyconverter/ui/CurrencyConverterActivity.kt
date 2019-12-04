@@ -35,8 +35,12 @@ class CurrencyConverterActivity : AppCompatActivity(), CurrencyConverterContract
         presenter.attachView(this)
     }
 
-    override fun updateView(currencyViewData: CurrencyViewData) {
+    override fun updateViewData(currencyViewData: CurrencyViewData) {
         adapter.updateData(currencyViewData)
+    }
+
+    override fun moveItemToTop(position: Int) {
+        adapter.moveItemToTop(position)
     }
 
     override fun showErrorMessage(text: String) {

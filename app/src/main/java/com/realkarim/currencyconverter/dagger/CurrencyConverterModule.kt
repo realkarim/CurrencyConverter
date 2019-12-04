@@ -4,7 +4,6 @@ import com.realkarim.currencyconverter.data.network.CurrencyRateApi
 import com.realkarim.currencyconverter.data.repository.CurrencyRateRepository
 import com.realkarim.currencyconverter.domain.interactor.GetCurrencyRateInteractor
 import com.realkarim.currencyconverter.ui.CurrencyConverterAdapter
-import com.realkarim.currencyconverter.ui.CurrencyConverterAdapterPresenter
 import com.realkarim.currencyconverter.ui.CurrencyConverterContract
 import com.realkarim.currencyconverter.ui.CurrencyConverterPresenter
 import dagger.Module
@@ -31,13 +30,9 @@ class CurrencyConverterModule {
     @Provides
     @Singleton
     fun provideCurrencyConverterAdapter(
-        currencyConverterAdapterPresenter: CurrencyConverterAdapterPresenter
+        currencyConverterPresenter: CurrencyConverterContract.Presenter
     ): CurrencyConverterAdapter =
-        CurrencyConverterAdapter(currencyConverterAdapterPresenter)
-
-    @Provides
-    @Singleton
-    fun provideCurrencyConverterAdapterPresenter() = CurrencyConverterAdapterPresenter()
+        CurrencyConverterAdapter(currencyConverterPresenter)
 
     @Provides
     @Singleton
