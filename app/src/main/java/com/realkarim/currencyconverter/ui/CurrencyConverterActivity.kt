@@ -1,6 +1,7 @@
 package com.realkarim.currencyconverter.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,8 @@ class CurrencyConverterActivity : AppCompatActivity(), CurrencyConverterContract
     @Inject
     lateinit var presenter: CurrencyConverterContract.Presenter
 
-    private val adapter = CurrencyConverterAdapter()
+    @Inject
+    lateinit var adapter: CurrencyConverterAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,7 @@ class CurrencyConverterActivity : AppCompatActivity(), CurrencyConverterContract
 
     override fun showErrorMessage(text: String) {
         Toast.makeText(this, text, LENGTH_SHORT).show()
+        Log.e("CCError", text)
     }
 
     override fun onStop() {

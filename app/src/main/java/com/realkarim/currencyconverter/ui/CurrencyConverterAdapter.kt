@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.realkarim.currencyconverter.R
 import com.realkarim.currencyconverter.ui.model.CurrencyViewData
 
-class CurrencyConverterAdapter : RecyclerView.Adapter<CurrencyConverterAdapterViewHolder>() {
+class CurrencyConverterAdapter(private val adapterPresenter: CurrencyConverterContract.AdapterPresenter) :
+    RecyclerView.Adapter<CurrencyConverterAdapterViewHolder>() {
 
     private var currencyViewData: CurrencyViewData = CurrencyViewData()
 
@@ -28,7 +29,7 @@ class CurrencyConverterAdapter : RecyclerView.Adapter<CurrencyConverterAdapterVi
     }
 
     override fun onBindViewHolder(holder: CurrencyConverterAdapterViewHolder, position: Int) =
-        holder.bind(currencyViewData.currencyList.get(position))
+        adapterPresenter.bindViewItem(holder, currencyViewData.currencyList.get(position))
 
     private fun inflateView(viewGroup: ViewGroup, @LayoutRes layout: Int) =
         LayoutInflater.from(viewGroup.context).inflate(layout, viewGroup, false)
