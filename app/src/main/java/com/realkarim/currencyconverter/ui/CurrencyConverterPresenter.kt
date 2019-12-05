@@ -31,6 +31,7 @@ class CurrencyConverterPresenter(
     ) {
         currencyConverterAdapterViewHolder.setName(currency.name)
         currencyConverterAdapterViewHolder.setValue(currency.rate)
+        currencyConverterAdapterViewHolder.setListeners()
     }
 
     override fun onViewItemClick(position: Int) {

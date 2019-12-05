@@ -13,6 +13,7 @@ interface CurrencyConverterContract {
     interface ItemView {
         fun setName(name: String)
         fun setValue(value: Double)
+        fun setListeners()
     }
 
     interface Presenter {
