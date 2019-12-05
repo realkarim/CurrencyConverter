@@ -26,8 +26,11 @@ class CurrencyConverterActivity : AppCompatActivity(), CurrencyConverterContract
         initDagger()
 
         currencyList.adapter = adapter
+    }
 
-        presenter.loadRateForCurrency("EUR")
+    override fun onStart() {
+        super.onStart()
+        presenter.startPollingRatesForCurrency("EUR")
     }
 
     private fun initDagger() {

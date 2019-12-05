@@ -1,11 +1,11 @@
 package com.realkarim.currencyconverter.ui
 
-import com.realkarim.currencyconverter.domain.interactor.GetCurrencyRateInteractor
+import com.realkarim.currencyconverter.domain.interactor.PollCurrencyRateInteractor
 import com.realkarim.currencyconverter.ui.model.Currency
 import io.reactivex.disposables.CompositeDisposable
 
 class CurrencyConverterPresenter(
-    private val getCurrencyRateInteractor: GetCurrencyRateInteractor
+    private val pollCurrencyRateInteractor: PollCurrencyRateInteractor
 ) : CurrencyConverterContract.Presenter {
 
     private lateinit var view: CurrencyConverterContract.View
@@ -15,9 +15,9 @@ class CurrencyConverterPresenter(
         this.view = view
     }
 
-    override fun loadRateForCurrency(currency: String) {
+    override fun startPollingRatesForCurrency(currency: String) {
         compositeDisposable.add(
-            getCurrencyRateInteractor(currency)
+            pollCurrencyRateInteractor(currency)
                 .subscribe(
                     { view.updateViewData(it) },
                     { view.showErrorMessage(it.localizedMessage) }
