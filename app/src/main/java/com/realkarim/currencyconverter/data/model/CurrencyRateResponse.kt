@@ -9,5 +9,5 @@ data class CurrencyRateResponse(
     @SerializedName("date")
     val date: String?,
     @SerializedName("rates")
-    val rates: Map<String, Double>?
+    val rates: LinkedHashMap<String, Double>?
 )

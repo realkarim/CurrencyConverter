@@ -5,8 +5,8 @@ import com.realkarim.currencyconverter.ui.model.CurrencyViewData
 
 object ModelMapper {
     fun mapToViewData(currencyRateResponse: CurrencyRateResponse): CurrencyViewData {
-        val currencyMap: HashMap<String, Double> = hashMapOf()
-        val rates = currencyRateResponse.rates ?: emptyMap()
+        val currencyMap: LinkedHashMap<String, Double> = linkedMapOf()
+        val rates = currencyRateResponse.rates ?: linkedMapOf()
 
         if (!currencyRateResponse.base.isNullOrEmpty()) {
             currencyMap[currencyRateResponse.base] = 1.0
