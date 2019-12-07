@@ -1,3 +1,3 @@
 package com.realkarim.currencyconverter.ui.model
 
-data class CurrencyViewData(val currencyList: MutableList<Currency> = mutableListOf())
+data class CurrencyViewData(val currencyMap: HashMap<String, Double> = hashMapOf())
