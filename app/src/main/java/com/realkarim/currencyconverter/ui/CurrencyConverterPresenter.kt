@@ -1,7 +1,6 @@
 package com.realkarim.currencyconverter.ui
 
 import com.realkarim.currencyconverter.domain.interactor.PollCurrencyRateInteractor
-import com.realkarim.currencyconverter.ui.model.Currency
 import io.reactivex.disposables.CompositeDisposable
 
 class CurrencyConverterPresenter(
@@ -23,15 +22,6 @@ class CurrencyConverterPresenter(
                     { view.showErrorMessage(it.localizedMessage) }
                 )
         )
-    }
-
-    override fun bindViewItem(
-        currencyConverterAdapterViewHolder: CurrencyConverterAdapterViewHolder,
-        currency: Currency
-    ) {
-        currencyConverterAdapterViewHolder.setName(currency.name)
-        currencyConverterAdapterViewHolder.setValue(currency.rate)
-        currencyConverterAdapterViewHolder.setListeners()
     }
 
     override fun onViewItemClick(position: Int) {

@@ -38,8 +38,12 @@ class CurrencyConverterAdapter(private val presenter: CurrencyConverterContract.
         return currencyViewData.currencyList.size
     }
 
-    override fun onBindViewHolder(holder: CurrencyConverterAdapterViewHolder, position: Int) =
-        presenter.bindViewItem(holder, currencyViewData.currencyList.get(position))
+    override fun onBindViewHolder(holder: CurrencyConverterAdapterViewHolder, position: Int) {
+        val currency = currencyViewData.currencyList.get(position)
+        holder.setName(currency.name)
+        holder.setValue(currency.rate)
+        holder.setListeners()
+    }
 
     private fun inflateView(viewGroup: ViewGroup, @LayoutRes layout: Int) =
         LayoutInflater.from(viewGroup.context).inflate(layout, viewGroup, false)

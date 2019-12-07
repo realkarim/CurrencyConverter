@@ -19,10 +19,6 @@ interface CurrencyConverterContract {
     interface Presenter {
         fun attachView(view: View)
         fun startPollingRatesForCurrency(currency: String)
-        fun bindViewItem(
-            currencyConverterAdapterViewHolder: CurrencyConverterAdapterViewHolder,
-            currency: Currency
-        )
         fun onViewItemClick(position: Int)
         fun onStop()
     }
