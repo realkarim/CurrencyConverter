@@ -21,8 +21,8 @@ class CurrencyConverterAdapter(private val presenter: CurrencyConverterContract.
                 currencyOrder.add(key)
             }
             rates[key] = updatedRates[key]!!
+            notifyItemChanged(currencyOrder.indexOf(key))
         }
-        notifyDataSetChanged()
     }
 
     fun moveItemToTop(position: Int) {
@@ -49,7 +49,6 @@ class CurrencyConverterAdapter(private val presenter: CurrencyConverterContract.
     override fun onBindViewHolder(holder: CurrencyConverterAdapterViewHolder, position: Int) {
         holder.setName(currencyOrder.get(position))
         holder.setValue(currencyViewData.currencyMap[currencyOrder.get(position)] ?: 0.0)
-        holder.setListeners()
     }
 
     private fun inflateView(viewGroup: ViewGroup, @LayoutRes layout: Int) =

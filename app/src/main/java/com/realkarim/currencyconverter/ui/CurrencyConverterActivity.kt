@@ -30,7 +30,7 @@ class CurrencyConverterActivity : AppCompatActivity(), CurrencyConverterContract
 
     override fun onStart() {
         super.onStart()
-        presenter.startPollingRatesForCurrency("EUR")
+        presenter.onStart()
     }
 
     private fun initDagger() {
@@ -44,6 +44,7 @@ class CurrencyConverterActivity : AppCompatActivity(), CurrencyConverterContract
 
     override fun moveItemToTop(position: Int) {
         adapter.moveItemToTop(position)
+        currencyList.scrollToPosition(0)
     }
 
     override fun showErrorMessage(text: String) {

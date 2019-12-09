@@ -1,9 +1,6 @@
 package com.realkarim.currencyconverter.ui
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.currency_list_item.view.*
 
@@ -13,6 +10,10 @@ class CurrencyConverterAdapterViewHolder(
     private val presenter: CurrencyConverterContract.Presenter
 ) : RecyclerView.ViewHolder(view), CurrencyConverterContract.ItemView {
 
+    init {
+        setListeners()
+    }
+
     override fun setName(name: String) {
         view.name.text = name
     }
@@ -21,14 +22,20 @@ class CurrencyConverterAdapterViewHolder(
         view.etValue.setText(value.toString())
     }
 
-    override fun setListeners() {
-        view.setOnClickListener { view.etValue.requestFocus() }
-        with(view.etValue) {
-            setOnFocusChangeListener(OnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    presenter.onViewItemClick(adapterPosition)
-                }
-            })
-        }
+    private fun setListeners() {
+        view.setOnClickListener { presenter.onViewItemClick(adapterPosition) }
+//        with(view.etValue) {
+//            addTextChangedListener(object : TextWatcher {
+//                override fun afterTextChanged(p0: Editable?) {
+//                }
+//
+//                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                }
+//
+//                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                    presenter.onCurrencyValueChanged(view.name, p0.toString().toDouble())
+//                }
+//            })
+//        }
     }
 }
