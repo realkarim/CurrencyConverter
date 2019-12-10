@@ -14,13 +14,15 @@ class CurrencyConverterAdapter(private val presenter: CurrencyConverterContract.
     private val currencyOrder: MutableList<String> = mutableListOf()
 
     fun updateData(updatedCurrencyRates: CurrencyViewData) {
-        val rates = currencyViewData.currencyMap
-        val updatedRates = updatedCurrencyRates.currencyMap
-        for (key in updatedRates.keys) {
-            if (key !in rates) {
+        val currentRates = currencyViewData.currencyMap
+        val newRates = updatedCurrencyRates.currencyMap
+        for (key in newRates.keys) {
+            if (currencyOrder.isNotEmpty() && key == currencyOrder[0])
+                continue
+            if (key !in currentRates) {
                 currencyOrder.add(key)
             }
-            rates[key] = updatedRates[key]!!
+            currentRates[key] = newRates[key]!!
             notifyItemChanged(currencyOrder.indexOf(key))
         }
     }

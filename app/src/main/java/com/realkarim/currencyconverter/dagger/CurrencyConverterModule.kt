@@ -1,7 +1,9 @@
 package com.realkarim.currencyconverter.dagger
 
 import com.realkarim.currencyconverter.data.network.CurrencyRateApi
+import com.realkarim.currencyconverter.data.relay.AdjustedRatesRelay
 import com.realkarim.currencyconverter.data.repository.CurrencyRateRepository
+import com.realkarim.currencyconverter.domain.interactor.AdjustMeasureInteractor
 import com.realkarim.currencyconverter.domain.interactor.PollCurrencyRateInteractor
 import com.realkarim.currencyconverter.ui.CurrencyConverterAdapter
 import com.realkarim.currencyconverter.ui.CurrencyConverterContract
@@ -23,9 +25,10 @@ class CurrencyConverterModule {
     @Provides
     @Singleton
     fun provideCurrencyConverterPresenter(
-        pollCurrencyRateInteractor: PollCurrencyRateInteractor
+        pollCurrencyRateInteractor: PollCurrencyRateInteractor,
+        adjustMeasureInteractor: AdjustMeasureInteractor
     ): CurrencyConverterContract.Presenter =
-        CurrencyConverterPresenter(pollCurrencyRateInteractor)
+        CurrencyConverterPresenter(pollCurrencyRateInteractor, adjustMeasureInteractor)
 
     @Provides
     @Singleton
@@ -41,8 +44,16 @@ class CurrencyConverterModule {
 
     @Provides
     @Singleton
-    fun provideCurrencyRateRepository(currencyRateApi: CurrencyRateApi) =
-        CurrencyRateRepository(currencyRateApi)
+    fun provideAdjustMeasureInteractor(currencyRateRepository: CurrencyRateRepository) =
+        AdjustMeasureInteractor(currencyRateRepository)
+
+    @Provides
+    @Singleton
+    fun provideCurrencyRateRepository(
+        currencyRateApi: CurrencyRateApi,
+        adjustedRatesRelay: AdjustedRatesRelay
+    ) =
+        CurrencyRateRepository(currencyRateApi, adjustedRatesRelay)
 
     @Provides
     @Singleton
@@ -66,4 +77,8 @@ class CurrencyConverterModule {
 
         return clientBuilder.build()
     }
+
+    @Provides
+    @Singleton
+    fun provideAdjustedRatesRelay() = AdjustedRatesRelay()
 }
