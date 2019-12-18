@@ -6,7 +6,7 @@ class AdjustMeasureInteractor(private val currencyRateRepository: CurrencyRateRe
     operator fun invoke(name: String, value: Double) {
         val adjustedRate = currencyRateRepository.getAdjustedRates()
         val oldValueForCurrency = adjustedRate[name] ?: 1.0
-        currencyRateRepository.updateBaseEur(
+        currencyRateRepository.updateBaseEuro(
             adjustBase(
                 currencyRateRepository.getBaseEur(),
                 oldValueForCurrency,

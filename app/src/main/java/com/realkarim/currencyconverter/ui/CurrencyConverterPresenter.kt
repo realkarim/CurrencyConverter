@@ -26,7 +26,7 @@ class CurrencyConverterPresenter(
     }
 
     override fun isTopCurrency(name: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return true
     }
 
     override fun attachView(view: CurrencyConverterContract.View) {

@@ -1,5 +1,6 @@
 package com.realkarim.currencyconverter.data.repository
 
+import android.util.Log
 import com.realkarim.currencyconverter.data.model.CurrencyRateResponse
 import com.realkarim.currencyconverter.data.network.CurrencyRateApi
 import com.realkarim.currencyconverter.data.relay.AdjustedRatesRelay
@@ -9,33 +10,48 @@ class CurrencyRateRepository(
     private val adjustedRatesRelay: AdjustedRatesRelay
 ) {
 
-    private var baseEUR = 1.0
+    private var baseEuro = 1.0
     private val adjustedRates = hashMapOf<String, Double>()
+
+    init {
+        adjustedRates["EUR"] = baseEuro
+    }
 
     fun fetchRateForCurrency(currency: String) =
         currencyRateApi.fetchRatesForCurrency(currency)
-            .doOnSuccess {
-                if (it != null)
-                    adjustMeasure(it)
-            }
+            .map { adjustCurrencyRatesBasedOnEuro(it) }
 
     fun getAdjustedRates() = adjustedRates
 
-    fun updateBaseEur(newBase: Double) {
-        this.baseEUR = newBase
+    fun updateBaseEuro(newBaseEuro: Double) {
+        adjustCurrencyRatesBasedOnEuro(newBaseEuro)
     }
 
-    fun getBaseEur() = baseEUR
+    fun getBaseEur() = baseEuro
 
-    private fun adjustMeasure(currencyRateResponse: CurrencyRateResponse) {
-        val newRates = currencyRateResponse.rates ?: return
+    private fun adjustCurrencyRatesBasedOnEuro(currencyRateResponse: CurrencyRateResponse): HashMap<String, Double> {
+        val newRates = currencyRateResponse.rates ?: return adjustedRates
+        adjustedRates["EUR"] = baseEuro
         for (key in newRates.keys) {
-            if (baseEUR == 0.0)
+            if (baseEuro == 0.0)
                 adjustedRates[key] = 0.0
             else
-                adjustedRates[key] = (newRates[key] ?: 0.0) * baseEUR
+                adjustedRates[key] = (newRates[key] ?: 0.0) * baseEuro
         }
+        return adjustedRates
+    }
 
+    private fun adjustCurrencyRatesBasedOnEuro(newBaseEuro: Double) {
+        val newRates = adjustedRates
+        for (key in newRates.keys) {
+            if (baseEuro == 0.0)
+                adjustedRates[key] = 0.0
+            else {
+                adjustedRates[key] = (newRates[key] ?: 0.0) / baseEuro
+                adjustedRates[key] = (newRates[key] ?: 0.0) * newBaseEuro
+            }
+        }
+        baseEuro = newBaseEuro
         adjustedRatesRelay.accept(adjustedRates)
     }
 }

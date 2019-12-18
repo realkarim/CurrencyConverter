@@ -35,6 +35,16 @@ class CurrencyConverterAdapterViewHolder(
         }
 
         with(view.etValue) {
+            setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    presenter.onViewItemClick(
+                        view.name.text.toString(),
+                        view.etValue.text.toString().toDouble(),
+                        adapterPosition
+                    )
+                }
+            }
+
             addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
                     // no-op
@@ -45,10 +55,12 @@ class CurrencyConverterAdapterViewHolder(
                 }
 
                 override fun onTextChanged(value: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (presenter.isTopCurrency(view.name.text.toString())) {
+                    val currency = view.name.text.toString()
+                    val rate = value.toString().toDoubleOrNull() ?: 0.0
+                    if (!value.isNullOrEmpty() && presenter.isTopCurrency(view.name.text.toString())) {
                         presenter.onCurrencyValueChanged(
-                            view.name.text.toString(),
-                            value.toString().toDouble()
+                            currency,
+                            rate
                         )
                     }
                 }

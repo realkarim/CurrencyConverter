@@ -28,7 +28,10 @@ class CurrencyConverterModule {
         pollCurrencyRateInteractor: PollCurrencyRateInteractor,
         adjustMeasureInteractor: AdjustMeasureInteractor
     ): CurrencyConverterContract.Presenter =
-        CurrencyConverterPresenter(pollCurrencyRateInteractor, adjustMeasureInteractor)
+        CurrencyConverterPresenter(
+            pollCurrencyRateInteractor,
+            adjustMeasureInteractor
+        )
 
     @Provides
     @Singleton
@@ -39,8 +42,14 @@ class CurrencyConverterModule {
 
     @Provides
     @Singleton
-    fun providePollCurrencyRateInteractor(currencyRateRepository: CurrencyRateRepository) =
-        PollCurrencyRateInteractor(currencyRateRepository)
+    fun providePollCurrencyRateInteractor(
+        currencyRateRepository: CurrencyRateRepository,
+        adjustedRatesRelay: AdjustedRatesRelay
+    ) =
+        PollCurrencyRateInteractor(
+            currencyRateRepository,
+            adjustedRatesRelay
+        )
 
     @Provides
     @Singleton

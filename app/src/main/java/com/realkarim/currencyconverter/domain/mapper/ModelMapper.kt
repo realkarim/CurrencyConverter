@@ -4,16 +4,15 @@ import com.realkarim.currencyconverter.data.model.CurrencyRateResponse
 import com.realkarim.currencyconverter.ui.model.CurrencyViewData
 
 object ModelMapper {
-    fun mapToViewData(currencyRateResponse: CurrencyRateResponse): CurrencyViewData {
+    fun mapToViewData(currencyRateResponse: HashMap<String, Double>): CurrencyViewData {
         val currencyMap: LinkedHashMap<String, Double> = linkedMapOf()
-        val rates = currencyRateResponse.rates ?: linkedMapOf()
 
-        if (!currencyRateResponse.base.isNullOrEmpty()) {
-            currencyMap[currencyRateResponse.base] = 1.0
+        if (!currencyRateResponse.isNullOrEmpty()) {
+            currencyMap["EUR"] = 1.0
         }
-        for (key in rates.keys) {
-            if (rates[key] != null) {
-                currencyMap[key] = rates[key]!!
+        for (key in currencyRateResponse.keys) {
+            if (currencyRateResponse[key] != null) {
+                currencyMap[key] = currencyRateResponse[key]!!
             }
         }
 
